@@ -1,0 +1,100 @@
+<html>
+    <head>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta content="text/html;charset=utf-8" http-equiv="Content-Type">
+        <meta content="utf-8" http-equiv="encoding">
+
+        <link rel="stylesheet" href="style.css">
+    </head>
+
+
+    <body>
+        <label for="quantity">Брой въпроси (1 до 60):</label>
+        <input type="number" id="quantity" name="quantity" size="3" min="1" max="60" value="60">
+        <input type="button" value="Нов тест" onClick="pick_questions(); buildQuiz();">
+
+        <div id="quiz"> LOADING PLEASE WAIT </br> (this should not take more than a few seconds)</div>
+        <button id="submit">Провери</button>
+        <div id="results"></div>
+
+    </body>
+
+    <script src="quiz.js"> </script>
+    <script>
+        var req = new XMLHttpRequest();
+        var questions;
+
+        async function load_questions(file) {
+            let promise = new Promise(
+                function(resolve, reject) {
+                    req.open("GET", file, true);
+                    req.overrideMimeType("application/json");
+                    req.onreadystatechange = function() {
+                        if(this.readyState == 4) {
+                            if(this.status == 200) {
+                                questions_db = JSON.parse(req.response);
+                                resolve();
+                            }
+                        }
+                    }
+                    req.send();
+                }
+            );
+            await promise;
+
+            quizContainer.innerHTML = "";
+        }
+
+        // Test questions
+        function shuffle(array) {
+            var currentIndex = array.length, temporaryValue, randomIndex;
+
+            // While there remain elements to shuffle...
+            while (0 !== currentIndex) {
+
+                // Pick a remaining element...
+                randomIndex = Math.floor(Math.random() * currentIndex);
+                currentIndex -= 1;
+
+                // And swap it with the current element.
+                temporaryValue = array[currentIndex];
+                array[currentIndex] = array[randomIndex];
+                array[randomIndex] = temporaryValue;
+            }
+
+            return array;
+        }
+
+        function pick_questions() {
+
+            const questions_terms = questions_db.slice(0, 120);
+
+            const pre_tech = questions_db.slice(120, 175);
+            const pre_law = questions_db.slice(175, 238);
+            const questions_tl = Array().concat(pre_tech).concat(pre_law);
+
+            const questions_colreg = questions_db.slice(238, 592);
+            const questions_navigation = questions_db.slice(592, 848);
+
+            var chosen = Array();
+            chosen = chosen.concat(shuffle(questions_colreg).slice(0, 20));
+            chosen = chosen.concat(shuffle(questions_navigation).slice(0, 20));
+            chosen = chosen.concat(shuffle(questions_terms).slice(0, 15));
+            chosen = chosen.concat(shuffle(questions_tl).slice(0, 5));
+            chosen = shuffle(chosen);
+
+            questions = chosen;
+
+            const num = parseInt(document.getElementById('quantity').value);
+            questions = questions.slice(0, num);
+
+        }
+
+        const hashnum = parseInt(location.hash.substring(1));
+        if( !isNaN(hashnum) ){
+            document.getElementById("quantity").value = hashnum;
+        }
+        load_questions("questions_40gt.json");
+
+    </script>
+</html>

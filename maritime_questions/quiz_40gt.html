@@ -4,15 +4,19 @@
         <meta content="text/html;charset=utf-8" http-equiv="Content-Type">
         <meta content="utf-8" http-equiv="encoding">
 
-		<link rel="stylesheet" href="style.css">
+        <link rel="stylesheet" href="style.css">
     </head>
 
 
     <body>
+        <label for="quantity">Брой въпроси (1 до 60):</label>
+        <input type="number" id="quantity" name="quantity" size="3" min="1" max="60" value="60">
+        <input type="button" value="Нов тест" onClick="pick_questions(); buildQuiz();">
+
         <div id="quiz"> LOADING PLEASE WAIT </br> (this should not take more than a few seconds)</div>
-        <button id="submit">Submit Quiz</button>
+        <button id="submit">Провери</button>
         <div id="results"></div>
-        <input type="button" value="New" onClick="pick_questions(); buildQuiz();">
+
     </body>
 
     <script src="quiz.js"> </script>
@@ -38,8 +42,7 @@
             );
             await promise;
 
-            pick_questions();
-            buildQuiz();
+            quizContainer.innerHTML = "";
         }
 
         // Test questions
@@ -82,13 +85,15 @@
 
             questions = chosen;
 
-            const hashnum = parseInt(location.hash.substring(1));
-            if( !isNaN(hashnum) ){
-                questions = questions.slice(0, hashnum);
-            }
+            const num = parseInt(document.getElementById('quantity').value);
+            questions = questions.slice(0, num);
 
         }
 
+        const hashnum = parseInt(location.hash.substring(1));
+        if( !isNaN(hashnum) ){
+            document.getElementById("quantity").value = hashnum;
+        }
         load_questions("questions_40gt.json");
 
     </script>

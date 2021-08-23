@@ -17,9 +17,21 @@ function buildQuiz(){
                 // variable to store the list of possible answers
                 const answers = [];
 
+                // shuffle answers
+                if ( !currentQuestion.answers[0].hasOwnProperty('value') )
+                {
+					// Has not been shuffled before, so we will add original value
+                    currentQuestion.answers.forEach((a, i) =>
+                        {
+                            a.value = i;
+                        }
+                    )
+                }
+                currentQuestion.answers = shuffle(currentQuestion.answers);
+
                 // and for each available answer...
                     //for(letter in currentQuestion.answers){
-                currentQuestion.answers.forEach((a, i) => {
+                currentQuestion.answers.forEach((a) => {
 
                     // Text data
                     const t = a.t
@@ -38,8 +50,8 @@ function buildQuiz(){
                     // ...add an HTML radio button
                     answers.push(
                         `<label>
-                            <input type="radio" name="question${questionNumber}" value="${i}">
-                            <span class="answer-option" name="question${questionNumber}" value="${i}">
+                            <input type="radio" name="question${questionNumber}" value="${a.value}">
+                            <span class="answer-option" name="question${questionNumber}" value="${a.value}">
                             ${answ}
                             </span>
                         </label></br>`
@@ -54,7 +66,7 @@ function buildQuiz(){
             }
             // add this question and its answers to the output
             output.push(
-                `<div class="question"> ${questionNumber + 1}. ${currentQuestion.question} ` + image_html + `</div>
+                `<div class="question"> ${questionNumber + 1}. <span class="id_marad">(${currentQuestion.id_marad})</span> ${currentQuestion.question} ` + image_html + `</div>
                 <div class="answers"> ${answers.join('')} </div>`
             );
         }
@@ -107,7 +119,7 @@ function showResults(){
   });
 
   // show number of correct answers out of total
-  resultsContainer.innerHTML = `${numCorrect} out of ${questions.length}`;
+  resultsContainer.innerHTML = `Верни: ${numCorrect} / ${questions.length}`;
 }
 
 // on submit, show results

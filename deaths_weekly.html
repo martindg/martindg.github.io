@@ -1,10 +1,13 @@
 <html>
 	<head>
 		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	</head>
 	<body>
 		<script src="./chart.min.js"></script>
-		<canvas id="myChart" width="400" height="200"></canvas>
+		<div class="chart-container">
+			<canvas id="myChart"></canvas>
+		</div>
 		<script>
 		var ctx = document.getElementById('myChart');
 		const DATA_COUNT = 7;

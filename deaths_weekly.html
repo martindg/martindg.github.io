@@ -27,7 +27,17 @@
 		  labels: Array.from({length: 53}, (_, i) => i + 1),
 		  datasets: [
 		    {
-		      label: '2019',
+		      label: 'средно за 2015-2019г.',
+		      data: deaths_raw["avg_pre_covid"],
+		      backgroundColor: [
+		          'rgba(0, 0, 0, 0.2)',
+		          ],
+		      borderColor: [
+		          'rgba(0, 0, 0, 0.5)',
+		          ],
+		    },
+		    {
+		      label: '2019г.',
 		      data: deaths_raw["2019"],
 		      backgroundColor: [
 		          'rgba(0, 99, 132, 0.2)',
@@ -37,7 +47,7 @@
 		          ],
 		    },
 		    {
-		      label: '2020',
+		      label: '2020г.',
 		      data: deaths_raw["2020"],
 		      backgroundColor: [
 		          'rgba(255, 150, 50, 0.2)',
@@ -47,7 +57,7 @@
 		          ],
 		    },
 		    {
-		      label: '2021',
+		      label: '2021г.',
 		      data: deaths_raw["2021"],
 		      backgroundColor: [
 		          'rgba(255, 50, 100, 0.2)',
@@ -70,7 +80,7 @@
 		      },
 		      title: {
 		        display: true,
-		        text: 'Weekly Deaths in Bulgaria'
+		        text: 'Седмична смъртност за България'
 		      }
 		    },
 		    tooltips: {
@@ -86,7 +96,7 @@
 			display: true,
 			title: {
 			  display: true,
-			  text: "Week Number",
+			  text: "Поредна Седмица",
 			  font: {
 			    weight: "bold",
 			  }
@@ -96,7 +106,7 @@
 			display: true,
 			title: {
 			  display: true,
-			  text: "Deaths",
+			  text: "Умирания",
 			  font: {
 			    weight: "bold",
 			  }

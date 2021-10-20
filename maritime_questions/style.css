@@ -1,5 +1,13 @@
+.quiz {
+    padding-bottom: 20px;
+}
+
 .question {
     font-weight: bold;
     padding-top: 15px;
+}
+
+.id_marad {
+    color: grey;
 }
 
